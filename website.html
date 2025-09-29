@@ -1,0 +1,991 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebNest - Professional Web Hosting Solutions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #3b82f6;
+            --primary-purple: #8b5cf6;
+            --primary-green: #10b981;
+            --dark-bg: #0f172a;
+            --dark-secondary: #1e293b;
+            --text-light: #f8fafc;
+            --text-gray: #94a3b8;
+            --text-gray-light: #cbd5e1;
+            --accent-yellow: #f59e0b;
+            --success-green: #10b981;
+            --warning-orange: #f97316;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1e1b4b 50%, var(--dark-bg) 100%);
+            color: var(--text-light);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            position: relative;
+            overflow: hidden;
+            padding: 80px 0 60px;
+            text-align: center;
+        }
+
+        .header-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.2) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 70%, rgba(139, 92, 246, 0.2) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .logo-container {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            margin-bottom: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            color: white;
+        }
+
+        .main-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, white, #93c5fd, #c4b5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .main-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-gray-light);
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        /* Trust Indicators */
+        .trust-indicators {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin: 40px 0;
+            padding: 20px 0;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-gray);
+        }
+
+        .trust-item i {
+            color: var(--primary-blue);
+            font-size: 1.2rem;
+        }
+
+        .trust-item.startup i {
+            color: var(--primary-purple);
+        }
+
+        .trust-item.uptime i {
+            color: var(--success-green);
+        }
+
+        /* Pricing Section */
+        .pricing-section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, white, #93c5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-gray-light);
+            max-width: 600px;
+            margin: 0 auto 60px;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .pricing-card.popular {
+            background: linear-gradient(135deg, var(--primary-purple), var(--primary-blue));
+            border: none;
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-yellow);
+            color: var(--dark-bg);
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            z-index: 10;
+        }
+
+        .plan-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .pricing-card.popular .plan-name {
+            color: white;
+        }
+
+        .plan-description {
+            color: var(--text-gray);
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+        }
+
+        .pricing-card.popular .plan-description {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .price-container {
+            margin-bottom: 25px;
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: 800;
+            color: white;
+        }
+
+        .pricing-card.popular .price {
+            color: white;
+        }
+
+        .period {
+            display: block;
+            color: var(--text-gray);
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+
+        .pricing-card.popular .period {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .features-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            color: var(--text-gray);
+            font-size: 0.95rem;
+        }
+
+        .pricing-card.popular .features-list li {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .features-list li i {
+            color: var(--success-green);
+            font-size: 0.9rem;
+        }
+
+        .pricing-card.popular .features-list li i {
+            color: white;
+        }
+
+        .cta-button {
+            display: inline-block;
+            width: 100%;
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .pricing-card:not(.popular) .cta-button {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .pricing-card:not(.popular) .cta-button:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .pricing-card.popular .cta-button {
+            background: white;
+            color: var(--primary-purple);
+        }
+
+        .pricing-card.popular .cta-button:hover {
+            background: var(--text-gray-light);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3);
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 80px 0;
+            background: rgba(15, 23, 42, 0.5);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 60px auto 0;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 40px 25px;
+            border-radius: 20px;
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(30, 41, 59, 0.6);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 1.8rem;
+        }
+
+        .feature-icon.speed {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--primary-blue);
+        }
+
+        .feature-icon.security {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success-green);
+        }
+
+        .feature-icon.growth {
+            background: rgba(139, 92, 246, 0.2);
+            color: var(--primary-purple);
+        }
+
+        .feature-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .feature-description {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 80px 0;
+        }
+
+        .cta-container {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.15));
+            border-radius: 25px;
+            padding: 60px;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cta-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .cta-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-gray-light);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .primary-cta {
+            background: var(--primary-blue);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .primary-cta:hover {
+            background: #2563eb;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.4);
+        }
+
+        .secondary-cta {
+            background: transparent;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-decoration: none;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .secondary-cta:hover {
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--primary-blue);
+        }
+
+        .footer-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .footer-description {
+            color: var(--text-gray);
+            margin-bottom: 20px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-email {
+            color: var(--primary-blue);
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-top: 10px;
+            display: block;
+        }
+
+        .copyright {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: rgba(30, 41, 59, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            color: var(--text-gray);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: white;
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .modal-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, white, #93c5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .selected-plan-display {
+            background: linear-gradient(135deg, var(--primary-purple), var(--primary-blue));
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .selected-plan-display h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .selected-plan-display p {
+            margin-top: 5px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(15, 23, 42, 0.5);
+            color: white;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            background: rgba(15, 23, 42, 0.7);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .main-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-container {
+                padding: 40px 20px;
+            }
+            
+            .cta-title {
+                font-size: 1.8rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .primary-cta, .secondary-cta {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .modal-content {
+                padding: 30px 20px;
+                margin: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 2rem;
+            }
+            
+            .price {
+                font-size: 2.5rem;
+            }
+            
+            .trust-indicators {
+                gap: 15px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-bg"></div>
+        <div class="container">
+            <div class="logo-container">
+                <i class="fas fa-spider logo"></i>
+            </div>
+            <h1 class="main-title">Web<span style="color: #93c5fd;">Nest</span></h1>
+            <p class="main-subtitle">Professional web hosting solutions tailored to your business needs with cutting-edge technology and 24/7 support</p>
+        </div>
+    </header>
+
+    <!-- Trust Indicators -->
+    <div class="container">
+        <div class="trust-indicators">
+            <div class="trust-item startup">
+                <i class="fas fa-rocket"></i>
+                <span>Perfect for Startups & Small Businesses</span>
+            </div>
+            <div class="trust-item uptime">
+                <i class="fas fa-shield-alt"></i>
+                <span>99.99% Uptime Guarantee</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pricing Section -->
+    <section class="pricing-section">
+        <div class="container">
+            <h2 class="section-title">Choose Your Perfect Plan</h2>
+            <p class="section-subtitle">All plans include 2 months of premium service with flexible upgrade options and 30-day money-back guarantee</p>
+            
+            <div class="pricing-grid">
+                <!-- Basic Plan -->
+                <div class="pricing-card">
+                    <h3 class="plan-name">Basic</h3>
+                    <p class="plan-description">Perfect for startups and small websites with essential features</p>
+                    <div class="price-container">
+                        <span class="price">$10</span>
+                        <span class="period">for 2 months</span>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check-circle"></i> Basic website hosting with 99.9% uptime</li>
+                        <li><i class="fas fa-check-circle"></i> 5GB high-speed SSD storage</li>
+                        <li><i class="fas fa-check-circle"></i> 100GB monthly bandwidth</li>
+                        <li><i class="fas fa-check-circle"></i> Email support (24-48 hour response)</li>
+                        <li><i class="fas fa-check-circle"></i> Standard SSL certificate</li>
+                        <li><i class="fas fa-check-circle"></i> Basic website analytics</li>
+                        <li><i class="fas fa-check-circle"></i> 1 free website migration</li>
+                    </ul>
+                    <button class="cta-button" onclick="openModal('basic', '$10 for 2 months')">Select Plan</button>
+                </div>
+
+                <!-- Professional Plan -->
+                <div class="pricing-card popular">
+                    <div class="popular-badge">MOST POPULAR</div>
+                    <h3 class="plan-name">Professional</h3>
+                    <p class="plan-description">Ideal for growing businesses with advanced features and priority support</p>
+                    <div class="price-container">
+                        <span class="price">$15</span>
+                        <span class="period">for 2 months</span>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check-circle"></i> Advanced website hosting with CDN</li>
+                        <li><i class="fas fa-check-circle"></i> 20GB high-speed SSD storage</li>
+                        <li><i class="fas fa-check-circle"></i> Unlimited monthly bandwidth</li>
+                        <li><i class="fas fa-check-circle"></i> Priority email & chat support</li>
+                        <li><i class="fas fa-check-circle"></i> Premium SSL certificate</li>
+                        <li><i class="fas fa-check-circle"></i> Advanced analytics & reporting</li>
+                        <li><i class="fas fa-check-circle"></i> SEO optimization tools</li>
+                        <li><i class="fas fa-check-circle"></i> Custom domain support</li>
+                        <li><i class="fas fa-check-circle"></i> Daily automated backups</li>
+                        <li><i class="fas fa-check-circle"></i> Free website builder</li>
+                    </ul>
+                    <button class="cta-button" onclick="openModal('professional', '$15 for 2 months')">Select Plan</button>
+                </div>
+
+                <!-- Premium Plan -->
+                <div class="pricing-card">
+                    <h3 class="plan-name">Premium</h3>
+                    <p class="plan-description">Complete enterprise solution for serious businesses with dedicated resources</p>
+                    <div class="price-container">
+                        <span class="price">$20</span>
+                        <span class="period">for 2 months</span>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check-circle"></i> Premium dedicated hosting</li>
+                        <li><i class="fas fa-check-circle"></i> Unlimited SSD storage</li>
+                        <li><i class="fas fa-check-circle"></i> Unlimited bandwidth</li>
+                        <li><i class="fas fa-check-circle"></i> 24/7 priority phone & chat support</li>
+                        <li><i class="fas fa-check-circle"></i> Advanced security suite</li>
+                        <li><i class="fas fa-check-circle"></i> Comprehensive business analytics</li>
+                        <li><i class="fas fa-check-circle"></i> Advanced SEO & marketing tools</li>
+                        <li><i class="fas fa-check-circle"></i> Free custom domain (1 year)</li>
+                        <li><i class="fas fa-check-circle"></i> Hourly automated backups</li>
+                        <li><i class="fas fa-check-circle"></i> E-commerce capabilities</li>
+                        <li><i class="fas fa-check-circle"></i> Marketing automation suite</li>
+                        <li><i class="fas fa-check-circle"></i> Dedicated account manager</li>
+                    </ul>
+                    <button class="cta-button" onclick="openModal('premium', '$20 for 2 months')">Select Plan</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="section-title">Why Choose WebNest?</h2>
+            <p class="section-subtitle">We provide the tools, technology, and support you need to succeed online</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon speed">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="feature-title">Lightning Fast</h3>
+                    <p class="feature-description">Our optimized global network ensures your website loads in under 1 second with 99.99% uptime guarantee</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon security">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Secure & Reliable</h3>
+                    <p class="feature-description">Enterprise-grade security with DDoS protection, malware scanning, and automatic security updates</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon growth">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="feature-title">Grow Your Business</h3>
+                    <p class="feature-description">Advanced analytics, SEO tools, and marketing automation to help your business reach new heights</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-container">
+                <h2 class="cta-title">Ready to Build Your Online Presence?</h2>
+                <p class="cta-subtitle">Join thousands of satisfied customers who trust WebNest for their web hosting needs</p>
+                <div class="cta-buttons">
+                    <a href="mailto:webnestza@gmail.com" class="primary-cta">Contact Us</a>
+                    <a href="mailto:webnestza@gmail.com" class="secondary-cta">Email Support</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-logo">
+                <i class="fas fa-spider"></i>
+            </div>
+            <h3 class="footer-title">WebNest</h3>
+            <p class="footer-description">Professional web hosting solutions for businesses of all sizes with cutting-edge technology and exceptional customer support</p>
+            <a href="mailto:webnestza@gmail.com" class="contact-email">webnestza@gmail.com</a>
+            <p class="copyright">© 2024 WebNest. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div class="modal-header">
+                <h2>Complete Your Order</h2>
+                <p>Provide your details and we'll get your website up and running</p>
+            </div>
+            
+            <div class="selected-plan-display" id="modalPlanDisplay">
+                <!-- Plan info will be populated by JavaScript -->
+            </div>
+            
+            <form id="orderForm">
+                <input type="hidden" id="selectedPlan" name="plan">
+                
+                <div class="form-group">
+                    <label for="modalName">Full Name</label>
+                    <input type="text" id="modalName" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="modalEmail">Email Address</label>
+                    <input type="email" id="modalEmail" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="modalPhone">Phone Number (Optional)</label>
+                    <input type="tel" id="modalPhone" name="phone">
+                </div>
+                
+                <div class="form-group">
+                    <label for="modalPurpose">What do you want the website for?</label>
+                    <select id="modalPurpose" name="website_purpose" required>
+                        <option value="">Select an option</option>
+                        <option value="business">Business Website</option>
+                        <option value="ecommerce">E-commerce Store</option>
+                        <option value="portfolio">Portfolio/Personal</option>
+                        <option value="blog">Blog/News</option>
+                        <option value="corporate">Corporate Website</option>
+                        <option value="startup">Startup Website</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="modalDescription">Project Description</label>
+                    <textarea id="modalDescription" name="description" placeholder="Please describe your project in detail, including any specific requirements, timeline, and budget considerations..." required></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">Submit Order</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Modal functionality
+        function openModal(plan, price) {
+            const modal = document.getElementById('orderModal');
+            const planDisplay = document.getElementById('modalPlanDisplay');
+            const planInput = document.getElementById('selectedPlan');
+            
+            // Set the selected plan
+            planInput.value = plan;
+            
+            // Display plan info
+            let planName = '';
+            switch(plan) {
+                case 'basic':
+                    planName = 'Basic Plan';
+                    break;
+                case 'professional':
+                    planName = 'Professional Plan';
+                    break;
+                case 'premium':
+                    planName = 'Premium Plan';
+                    break;
+                default:
+                    planName = 'Selected Plan';
+            }
+            
+            planDisplay.innerHTML = `
+                <h3>${planName}</h3>
+                <p>${price}</p>
+            `;
+            
+            // Show modal
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById('orderModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restore background scrolling
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('orderModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+        
+        // Handle form submission
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const plan = formData.get('plan');
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const phone = formData.get('phone') || 'Not provided';
+            const purpose = formData.get('website_purpose');
+            const description = formData.get('description');
+            
+            // Create mailto link with pre-filled subject and body
+            const subject = `WebNest Order - ${plan.charAt(0).toUpperCase() + plan.slice(1)} Plan`;
+            const body = `Plan: ${plan}\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nWebsite Purpose: ${purpose}\n\nDescription:\n${description}`;
+            
+            // Encode for URL
+            const mailtoLink = `mailto:webnestza@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            // Open email client
+            window.location.href = mailtoLink;
+            
+            // Close modal after a short delay to allow email to open
+            setTimeout(() => {
+                closeModal();
+                // Show success message (optional)
+                alert('Your order details have been prepared! Please check your email client to send the request.');
+            }, 500);
+        });
+    </script>
+</body>
+</html>
